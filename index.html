@@ -3,829 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Perfumes | Luxury Fragrances - ElinFragrance India</title>
-    <meta name="description" content="Discover exquisite luxury perfumes and fragrances. Premium quality, unique scents, fast delivery across India.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <title>ElinFragrance - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        body {
-            box-sizing: border-box;
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .sidebar { background-color: #1f2937; color: #d1d5db; transition: transform 0.3s ease-in-out; z-index: 40; width: 16rem; transform: translateX(-100%); position: fixed; height: 100vh; }
+        .sidebar.active { transform: translateX(0); box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); }
+        @media (min-width: 1024px) { .sidebar { transform: translateX(0); position: static; height: auto; } }
+        .sidebar a { border-left: 3px solid transparent; transition: all 0.2s; }
+        .sidebar a:hover { background-color: #374151; }
+        .sidebar a.active { background-color: #714329; color: white; border-left-color: #B08463; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s; }
+        .btn { padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: all 0.2s; }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background-color: #714329; color: white; }
+        .btn-primary:hover { background-color: #5a3521; }
+        .btn-danger { background-color: #ef4444; color: white; }
+        .btn-secondary { background-color: #6b7280; color: white; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background-color: #f9fafb; font-weight: 600; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 30; display: none; }
+        .sidebar-overlay.active { display: block; }
+        .modal { display: none; }
+        .modal.active { display: flex; }
+    </style>
+</head>
+<body>
+<div id="admin-login-view" class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <h1 class="text-3xl font-bold text-center text-gray-900">ElinFragrance Admin</h1>
+        <input id="admin-email" type="email" placeholder="Admin Email" class="w-full px-4 py-2 border rounded-lg">
+        <input id="admin-password" type="password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg">
+        <button id="admin-login-btn" class="w-full btn btn-primary">Login</button>
+        <p id="login-error" class="text-red-500 text-center"></p>
+    </div>
+</div>
+
+<div id="admin-dashboard" class="hidden">
+    <div class="flex h-screen relative lg:static">
+        <div id="sidebar-overlay" class="sidebar-overlay lg:hidden"></div>
+        <aside id="sidebar" class="sidebar w-64 flex-shrink-0">
+            <div class="p-4 text-2xl font-bold text-white flex justify-between items-center">ElinFragrance Admin <button id="close-sidebar-btn" class="lg:hidden text-white"><i data-lucide="x" class="w-6 h-6"></i></button></div>
+            <nav class="mt-8">
+                <a href="#" class="nav-link block py-3 px-4 active" data-page="dashboard-page"><i data-lucide="layout-grid" class="inline-block w-5 h-5 mr-2"></i>Dashboard</a>
+                <a href="#" class="nav-link block py-3 px-4" data-page="products-page"><i data-lucide="package" class="inline-block w-5 h-5 mr-2"></i>Products</a>
+                <a href="#" class="nav-link block py-3 px-4" data-page="users-page"><i data-lucide="users" class="inline-block w-5 h-5 mr-2"></i>User Management</a>
+                <a href="#" id="admin-logout-btn" class="block py-3 px-4 mt-8"><i data-lucide="log-out" class="inline-block w-5 h-5 mr-2"></i>Logout</a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
+            <div class="lg:hidden mb-4"><button id="menu-toggle" class="p-2 bg-gray-200 rounded-md"><i data-lucide="menu" class="w-6 h-6"></i></button></div>
+
+            <div id="dashboard-page" class="page active">
+                 <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                     <div class="bg-white p-6 rounded-lg shadow"><h2 class="text-gray-500 text-lg">Total Users</h2><p id="total-users" class="text-4xl font-bold">0</p></div>
+                     <div class="bg-white p-6 rounded-lg shadow"><h2 class="text-gray-500 text-lg">Total Products</h2><p id="total-products" class="text-4xl font-bold">0</p></div>
+                 </div>
+            </div>
+
+            <div id="products-page" class="page">
+                 <div class="flex justify-between items-center mb-6">
+                     <h1 class="text-3xl font-bold">Product Management</h1>
+                     <button id="add-product-btn" class="btn btn-primary"><i data-lucide="plus" class="inline-block w-5 h-5 mr-2"></i>Add Product</button>
+                 </div>
+                 <div class="bg-white shadow rounded-lg overflow-x-auto"><table class="min-w-full"><thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Actions</th></tr></thead><tbody id="products-table-body"></tbody></table></div>
+            </div>
+
+            <div id="users-page" class="page">
+                 <h1 class="text-3xl font-bold mb-6">User Management</h1>
+                 <div class="mb-4"><input type="text" id="user-search" placeholder="Search by name or email..." class="w-full max-w-md px-4 py-2 border rounded-lg"></div>
+                 <div class="bg-white shadow rounded-lg overflow-x-auto"><table class="min-w-full"><thead><tr><th>Username</th><th>Email</th><th>Status</th><th>Flags</th><th>Actions</th></tr></thead><tbody id="users-table-body"></tbody></table></div>
+            </div>
+            
+        </main>
+    </div>
+</div>
+
+ <div id="product-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg p-6 w-full max-w-2xl shadow-xl max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-4 border-b pb-2"><h2 id="product-modal-title" class="text-2xl font-bold">Add Product</h2><button id="product-modal-close-btn" class="text-gray-500 hover:text-gray-800"><i data-lucide="x" class="w-6 h-6"></i></button></div>
+        <form id="product-form" class="space-y-4">
+            <input type="hidden" id="product-id">
+            <div><label for="p-name" class="block font-semibold mb-1">Product Name</label><input type="text" id="p-name" class="w-full px-3 py-2 border rounded-lg" required></div>
+            <div><label for="p-description" class="block font-semibold mb-1">Description</label><textarea id="p-description" class="w-full px-3 py-2 border rounded-lg" rows="3"></textarea></div>
+            <div><label for="p-category" class="block font-semibold mb-1">Category</label>
+                <select id="p-category" class="w-full px-3 py-2 border rounded-lg" required>
+                    <option value="men">Men's Fragrances</option>
+                    <option value="women">Women's Fragrances</option>
+                    <option value="unisex">Unisex Fragrances</option>
+                </select>
+            </div>
+             <div>
+                <label for="p-image" class="block font-semibold mb-1">Image URL</label>
+                <input type="text" id="p-image" class="w-full px-3 py-2 border rounded-lg" placeholder="https://images.unsplash.com/..." required>
+            </div>
+            <div>
+                <label class="block font-semibold mb-1">Sizes & Prices</label>
+                <div id="p-sizes-container" class="space-y-2">
+                    <!-- Dynamic sizes will be added here -->
+                </div>
+                <button type="button" id="add-size-btn" class="mt-2 text-sm btn btn-secondary">Add Size</button>
+            </div>
+            <div class="flex justify-end space-x-4 mt-6 border-t pt-4"><button type="button" id="product-modal-cancel-btn" class="btn bg-gray-200 text-gray-800">Cancel</button><button type="submit" class="btn btn-primary">Save Product</button></div>
+        </form>
+    </div>
+</div>
+
+<div id="custom-alert" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[70] p-4"><div class="bg-white rounded-lg p-6 w-full max-w-sm text-center shadow-xl"><p id="alert-message" class="mb-4"></p><button id="alert-ok-btn" class="btn btn-primary px-6">OK</button></div></div>
+<div id="custom-confirm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[70] p-4"><div class="bg-white rounded-lg p-6 w-full max-w-sm text-center shadow-xl"><p id="confirm-message" class="mb-6"></p><div class="flex justify-center space-x-4"><button id="confirm-cancel-btn" class="btn bg-gray-200">Cancel</button><button id="confirm-ok-btn" class="btn btn-danger px-6">Confirm</button></div></div></div>
+
+<script>
+    // --- SUPABASE CONFIG ---
+    const SUPABASE_URL = 'https://ylfgywcjczto.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5dWF1bGdmZ3ljb3dqY2NjaXpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzMjQ1MDMsImV4cCI6MjA3NDkwMDUwM30.IfgrCv-4oJQpQgz5g8s8a-o8USK8gto0MDinW7BSExc';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // --- GLOBAL STATE ---
+    let allUsers = [];
+    let allProducts = [];
+
+    // --- INITIALIZATION ---
+    window.onload = async () => {
+        lucide.createIcons();
+        setupEventListeners();
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+            document.getElementById('admin-login-view').style.display = 'none';
+            document.getElementById('admin-dashboard').style.display = 'block';
+            navigateTo('dashboard-page');
+            loadInitialData();
+        } else {
+            document.getElementById('admin-login-view').style.display = 'flex';
+            document.getElementById('admin-dashboard').style.display = 'none';
         }
+    };
+    
+    async function loadInitialData() {
+        await loadUsers(); 
+        await loadProducts();
+        updateDashboardStats();
+    }
+
+    // --- AUTHENTICATION ---
+    function showLoginError(message) { document.getElementById('login-error').textContent = message; }
+    async function handleAdminLogin() {
+        const email = document.getElementById('admin-email').value;
+        const password = document.getElementById('admin-password').value;
+        showLoginError('');
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            showLoginError(error.message);
+        } else {
+            window.location.reload();
+        }
+    }
+
+    async function handleAdminLogout() {
+        await supabase.auth.signOut();
+        window.location.reload();
+    }
+
+    // --- EVENT LISTENERS ---
+    function setupEventListeners() {
+        document.getElementById('admin-login-btn').addEventListener('click', handleAdminLogin);
+        document.getElementById('admin-logout-btn').addEventListener('click', handleAdminLogout);
+        document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); navigateTo(link.dataset.page); }));
+        document.getElementById('menu-toggle').addEventListener('click', () => { document.getElementById('sidebar').classList.add('active'); document.getElementById('sidebar-overlay').classList.add('active'); });
+        document.getElementById('close-sidebar-btn').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('active'); document.getElementById('sidebar-overlay').classList.remove('active'); });
+        document.getElementById('sidebar-overlay').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('active'); document.getElementById('sidebar-overlay').classList.remove('active'); });
+        document.getElementById('user-search').addEventListener('input', (e) => renderUsersTable(e.target.value));
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: inherit;
-        }
+        // Product Modal
+        document.getElementById('add-product-btn').addEventListener('click', () => openProductModal());
+        document.getElementById('product-modal-close-btn').addEventListener('click', () => document.getElementById('product-modal').classList.remove('active'));
+        document.getElementById('product-modal-cancel-btn').addEventListener('click', () => document.getElementById('product-modal').classList.remove('active'));
+        document.getElementById('product-form').addEventListener('submit', handleProductFormSubmit);
+        document.getElementById('add-size-btn').addEventListener('click', addSizeInput);
+    }
 
-        :root {
-            --primary: #714329;
-            --secondary: #B08463;
-            --tertiary: #B9937B;
-            --neutral-light: #D0B9A7;
-            --neutral-gray: #B5A192;
-            --background: #FAF9F6;
-            --white: #FFFFFF;
-            --text-dark: #2C2C2C;
-            --text-light: #666666;
-            --shadow: 0 4px 20px rgba(113, 67, 41, 0.1);
-            --shadow-hover: 0 8px 30px rgba(113, 67, 41, 0.15);
-            --border-radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    // --- UI & NAVIGATION ---
+    function navigateTo(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.page === pageId) link.classList.add('active');
+        });
+        if (window.innerWidth < 1024) {
+             document.getElementById('sidebar').classList.remove('active');
+             document.getElementById('sidebar-overlay').classList.remove('active');
         }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
+    }
+    
+    // --- DATA LOADING & RENDERING ---
+    async function loadUsers() {
+        const { data, error } = await supabase.from('users').select('*');
+        if (error) {
+            showAlert('Error fetching users: ' + error.message);
+            return;
         }
+        allUsers = data;
+        renderUsersTable();
+    }
 
-        /* Navigation */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(250, 249, 246, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: var(--transition);
-            border-bottom: 1px solid var(--neutral-light);
+    async function loadProducts() {
+        const { data, error } = await supabase.from('products').select('*');
+        if (error) {
+            showAlert('Error fetching products: ' + error.message);
+            return;
         }
+        allProducts = data;
+        renderProductsTable();
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    function updateDashboardStats() {
+        document.getElementById('total-users').textContent = allUsers.length;
+        document.getElementById('total-products').textContent = allProducts.length;
+    }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
+    // --- USER MANAGEMENT ---
+    function renderUsersTable(searchTerm = '') {
+        const tableBody = document.getElementById('users-table-body');
+        tableBody.innerHTML = '';
+        const filteredUsers = allUsers.filter(user => 
+            (user.username || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (user.email || '').toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        
+        filteredUsers.forEach(user => {
+            const isBlocked = user.is_blocked || false;
+            const flags = user.flags || 0;
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                <td class="font-medium">${user.username || 'N/A'}</td>
+                <td>${user.email}</td>
+                <td><span class="px-2 py-1 text-xs font-semibold rounded-full ${isBlocked ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}">${isBlocked ? 'Blocked' : 'Active'}</span></td>
+                <td>${flags > 0 ? `<span class="text-red-500 font-bold">${flags} Flags</span>` : 'None'}</td>
+                <td class="space-x-2 whitespace-nowrap">
+                    <button class="btn bg-yellow-500 text-white text-xs flag-user-btn" data-user-id="${user.id}">Flag</button>
+                    <button class="btn ${isBlocked ? 'bg-green-500 hover:bg-green-600' : 'btn-danger'} text-white text-xs block-user-btn" data-user-id="${user.id}" data-is-blocked="${isBlocked}">${isBlocked ? 'Unblock' : 'Block'}</button>
+                </td>`;
+        });
 
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-            margin-left: auto;
-            margin-right: 2rem;
-        }
+        document.querySelectorAll('.flag-user-btn').forEach(btn => btn.addEventListener('click', (e) => flagUser(e.target.dataset.userId)));
+        document.querySelectorAll('.block-user-btn').forEach(btn => btn.addEventListener('click', (e) => toggleBlockUser(e.target.dataset.userId, e.target.dataset.isBlocked === 'true')));
+    }
 
-        .nav-link {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .cart-icon {
-            position: relative;
-            background: none;
-            color: var(--primary);
-            padding: 0.75rem;
-            border-radius: 50%;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .cart-icon:hover {
-            background: var(--neutral-light);
-            transform: translateY(-2px);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .mobile-nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .mobile-cart {
-            display: none;
-        }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary);
-            cursor: pointer;
-        }
-
-        .profile-btn {
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .profile-btn:hover {
-            background: var(--text-dark);
-            transform: translateY(-2px);
-        }
-
-        .signup-btn {
-            background: var(--secondary);
-            color: var(--white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-        }
-
-        .signup-btn:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            padding: 8rem 0;
-            background: url('banner.jpg') center/cover;
-            position: relative;
-            overflow: hidden;
-            min-height: 60vh;
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(113, 67, 41, 0.3);
-            opacity: 1;
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            height: 100%;
-        }
-
-        .hero-content {
-            max-width: 600px;
-        }
-
-        .hero-content h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 2rem;
-            line-height: 1.2;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: var(--primary);
-            color: var(--white);
-            padding: 1.25rem 3rem;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.2rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow-hover);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: gentleBounce 3s ease-in-out infinite;
-        }
-
-        .cta-button:hover {
-            background: var(--text-dark);
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 50px rgba(113, 67, 41, 0.4);
-            animation: none;
-        }
-
-        @keyframes gentleBounce {
-            0%, 100% {
-                transform: translateY(0px);
+    async function flagUser(userId) {
+        const user = allUsers.find(u => u.id === parseInt(userId));
+        const currentFlags = user.flags || 0;
+        showConfirm(`Are you sure you want to add a red flag to this user?`, async () => {
+            const { error } = await supabase.from('users').update({ flags: currentFlags + 1 }).eq('id', userId);
+            if (error) {
+                showAlert('Error flagging user: ' + error.message);
+            } else {
+                showAlert('User has been flagged.');
+                loadUsers();
             }
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-
-        /* Featured Products */
-        .featured-section {
-            padding: 6rem 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 3rem;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .product-card {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 250px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(113, 67, 41, 0.1), rgba(185, 147, 123, 0.1));
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .product-card:hover .product-image::before {
-            opacity: 1;
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .add-to-cart-btn {
-            width: 100%;
-            background: var(--secondary);
-            color: var(--white);
-            border: none;
-            padding: 0.75rem;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .add-to-cart-btn:hover {
-            background: var(--primary);
-            transform: translateY(-1px);
-        }
-
-        /* Shop Page */
-
-        .filters-section {
-            background: var(--white);
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--neutral-light);
-            margin-top: 80px;
-        }
-
-        .filters-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .search-bar {
-            flex: 1;
-            min-width: 250px;
-            position: relative;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 3rem;
-            border: 2px solid var(--neutral-light);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .filter-label {
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-        }
-
-        .filter-select {
-            padding: 0.5rem;
-            border: 2px solid var(--neutral-light);
-            border-radius: 8px;
-            background: var(--white);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        /* Product Detail Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            max-width: 900px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: slideUp 0.3s ease;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--white);
-            border: 2px solid var(--neutral-light);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--text-dark);
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .modal-close:hover {
-            background: var(--primary);
-            color: var(--white);
-            border-color: var(--primary);
-            transform: scale(1.1);
-        }
-
-        .product-detail {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            padding: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .product-detail {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                padding: 1rem;
-            }
-        }
-
-        .product-detail-image {
-            width: 100%;
-            height: 400px;
-            background-size: cover;
-            background-position: center;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .product-detail-image:hover {
-            transform: scale(1.05);
-        }
-
-        .product-detail-info h2 {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .product-detail-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .size-selector {
-            margin-bottom: 1.5rem;
-        }
-
-        .size-options {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .size-option {
-            padding: 0.5rem 1rem;
-            border: 2px solid var(--neutral-light);
-            border-radius: 8px;
-            background: var(--white);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .size-option:hover,
-        .size-option.selected {
-            border-color: var(--primary);
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .quantity-btn {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--primary);
-            background: var(--white);
-            color: var(--primary);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .quantity-btn:hover {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .quantity-input {
-            width: 60px;
-            text-align: center;
-            padding: 0.5rem;
-            border: 2px solid var(--neutral-light);
-            border-radius: 8px;
-        }
-
-        .add-to-cart-detail {
-            width: 100%;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-bottom: 1rem;
-        }
-
-        .add-to-cart-detail:hover {
-            background: var(--text-dark);
-            transform: translateY(-2px);
-        }
-
-        .wishlist-btn {
-            width: 50px;
-            height: 50px;
-            background: var(--white);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .wishlist-btn:hover {
-            background: var(--primary);
-            color: var(--white);
-            transform: scale(1.1);
-        }
-
-        .wishlist-btn.active {
-            background: #e74c3c;
-            border-color: #e74c3c;
-            color: var(--white);
-        }
-
-        /* Cart */
-        .cart-section {
-            margin-top: 80px;
-            padding: 4rem 0;
-            min-height: 60vh;
-        }
-
-        .cart-item {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: var(--shadow);
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .cart-item-image {
-            width: 100px;
-            height: 100px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 12px;
-        }
-
-        .cart-item-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .cart-item-info h3 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .cart-item-info p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .cart-item-price {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-
-        .cart-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            align-items: flex-end;
-        }
-
-        .cart-quantity {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .remove-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .remove-btn:hover {
-            background: #c0392b;
-        }
-
-        .cart-summary {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            margin-top: 2rem;
-        }
-
-        .cart-total {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .checkout-btn:hover {
-            background: var(--text-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Checkout Form */
-        .checkout-section {
-            margin-top: 80px;
-            padding: 4rem 0;
-        }
-
-        .checkout-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .checkout-form {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--neutral-light);
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background: var(--white);
-            color: var(--text-dark);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(113, 67, 41, 0.1);
-        }
-
-        .form-input select {
-            cursor: pointer;
-        }
-
-        .form-input option {
-            background: var(--white);
-            color: var(--text-dark);
-            padding: 0.5rem;
-        }
-
-        .form-input option:hover {
-            background: var(--neutral-light);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        });
+    }
+
+    function toggleBlockUser(userId, isCurrentlyBlocked) {
+        const action = isCurrentlyBlocked ? 'unblock' : 'block';
+        showConfirm(`Are you sure you want to ${action} this user?`, async () => {
+             const { error } = await supabase.from('users').update({ is_blocked: !isCurrentlyBlocked }).eq('id', userId);
+             if (error) {
+                 showAlert(`Error ${action}ing user: ` + error.message);
+             } else {
+                showAlert(`User has been ${action}ed.`);
+                loadUsers();
+             }
+        });
+    }
+
+    // --- PRODUCT MANAGEMENT ---
+    function renderProductsTable() {
+        const tableBody = document.getElementById('products-table-body');
+        tableBody.innerHTML = '';
+        allProducts.forEach(p => {
+            const row = tableBody.insertRow();
+            const minPrice = Math.min(...p.sizes.map(s => s.price));
+            row.innerHTML = `
+                <td class="font-medium">${p.name}</td>
+                <td>${p.category}</td>
+                <td>Starts at ₹${minPrice}</td>
+                <td class="space-x-2 whitespace-nowrap">
+                    <button class="btn btn-secondary text-xs edit-product-btn" data-product-id="${p.id}">Edit</button>
+                    <button class="btn btn-danger text-xs delete-product-btn" data-product-id="${p.id}">Delete</button>
+                </td>`;
+        });
+
+        document.querySelectorAll('.edit-product-btn').forEach(b => b.onclick = (e) => openProductModal(allProducts.find(p => p.id === parseInt(e.target.dataset.productId))));
+        document.querySelectorAll('.delete-product-btn').forEach(b => b.onclick = (e) => deleteProduct(e.target.dataset.productId));
+    }
+
+    function openProductModal(product = null) {
+        const form = document.getElementById('product-form');
+        form.reset();
+        document.getElementById('product-id').value = '';
+        document.getElementById('p-sizes-container').innerHTML = '';
+        
+        if (product) {
+            document.getElementById('product-modal-title').textContent = "Edit Product";
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('p-name').value = product.name;
+            document.getElementById('p-description').value = product.description;
+            document.getElementById('p-category').value = product.category;
+            document.getElementById('p-image').value = product.image;
+            product.sizes.forEach(size => addSizeInput(size.volume, size.price));
+        } else {
+             document.getElementById('product-modal-title').textContent = "Add Product";
+             addSizeInput('30ml', ''); // Add one default size input
+        }
+        document.getElementById('product-modal').classList.add('active');
+    }
+
+    function addSizeInput(volume = '', price = '') {
+        const container = document.getElementById('p-            grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
 
