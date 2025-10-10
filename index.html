@@ -1752,19 +1752,15 @@
         let difficulty = 'normal';
         // ... (आपके मौजूदा वेरिएबल्स के बाद, जैसे gameActive, money, आदि)
 
-		// ... (आपके existing global variables)
-let gameSession = null; // Track current game session
-let withdrawalHistory = []; // Track withdrawal history with status
-let savedPaymentAccounts = {
-// ...
-// _________________________
-// 🎶 NEW: Sound variables 🎶
-let soundEnabled = true;
-let soundVolume = 0.5; // Default volume
+	// 🎶 NEW: Sound variables 🎶
+let soundEnabled = true; // FIX: अब यह एक स्वतंत्र 'let' है
+let soundVolume = 0.5; // FIX: अब यह एक स्वतंत्र 'let' है
 const sounds = {}; // To store all Audio objects
-// _________________________
 
-// ... (Rest of your power-up variables)
+// _________________________
+// 🌟 NEW: Global Game Configuration
+let gameConfig = {
+// ... (rest of gameConfig)
 // 🌟 NEW: Global Game Configuration
 let gameConfig = {
     easy: {
