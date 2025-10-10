@@ -623,12 +623,12 @@
                 </div>
                 
                 <!-- Profile button in top left -->
-                <button id="profile-button-main" class="profile-button" style="position: absolute; top: 15px; left: 15px; z-index: 40;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </button>
+            <button id="profile-button-main" class="profile-button absolute top-4 left-4 z-40">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </button>
                 
                 <div class="mb-10 relative">
                     <div class="w-40 h-40 mx-auto relative floating">
@@ -647,19 +647,41 @@
                 </button>
                 
                 <!-- Withdrawal History button -->
-                <button id="withdrawal-history-button" class="absolute top-24 right-4 bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Withdrawal History">
-                    <div class="flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                        </svg>
-                        <span class="hidden sm:block font-extrabold text-sm">History</span>
-                    </div>
-                </button>
-                
+            <button id="withdrawal-history-button" class="absolute top-16 right-4 bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Withdrawal History">
+                    <!-- ... (Rest of SVG and span) ... -->
+            </button>
+                <!-- 🎶 NEW: Sound Toggle Button 🎶 -->
+            <button id="sound-toggle-button" class="absolute top-[7.5rem] right-4 bg-gray-600 hover:bg-gray-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Toggle Sound">
+                <div class="flex items-center space-x-2">
+                    <svg id="sound-icon-on" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11 5V19c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h3l4-4zM16.5 12c0-1.77-1.02-3.29-2.5-4v8c1.48-.71 2.5-2.23 2.5-4zm-2.5 5.5v-11c2.23 0 4.05 1.74 4.05 4.5 0 2.76-1.82 4.5-4.05 4.5z"/>
+                    </svg>
+                    <svg id="sound-icon-off" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 hidden" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11 5V19c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h3l4-4zM16.5 12c0-1.77-1.02-3.29-2.5-4v2.21l2.45 2.45c.03-.2.05-.41.05-.66zM19 12c0 .64-.13 1.25-.36 1.81l2.25 2.25c.61-1.22.98-2.65.98-4.06 0-3.71-2.02-6.92-4.97-8.62L16.5 7.5v-1.1c2.23 0 4.05 1.74 4.05 4.5 0 .3-.03.59-.08.88l-1.6-1.6zM4.27 3L3 4.27l7.56 7.56L11 12.83V19c0 .41-.35.7-.75.75L8 18.33V15.5l-2.45-2.45c-.03.2-.05.41-.05.66 0 1.77 1.02 3.29 2.5 4v2.09l2.25 2.25c.61 1.22.98 2.65.98 4.06 0 3.71-2.02 6.92-4.97 8.62L16.5 7.5v-1.1c2.23 0 4.05 1.74 4.05 4.5 0 .3-.03.59-.08.88l-1.6-1.6z"/>
+                    </svg>
+                    <span class="hidden sm:block font-extrabold text-sm">Sound</span>
+                </div>
+            </button>
                 <div class="space-y-4">
                     <button id="play-button" class="menu-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
                         Play Game
                     </button>
+					 <!-- ⭐ NEW: Refer and Earn Modal (इसे यहाँ छिपा हुआ रखें) ⭐ -->
+                    <div id="refer-earn-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal">
+                        <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 text-center">
+                            <h2 class="text-3xl font-bold text-pink-600 mb-4">🤝 Invite Friends!</h2>
+                            <p class="text-gray-700 mb-6">Share your referral link below and earn ₹5 for every friend who registers and plays one game!</p>
+                            <div class="bg-gray-100 p-4 rounded-xl mb-6">
+                                <p class="font-mono text-sm text-gray-700" id="referral-link-display">https://flappyearn.com/ref/USER_ID</p>
+                            </div>
+                            <button id="copy-referral-link" class="menu-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full w-full text-lg mb-4">
+                                Copy Link
+                            </button>
+                            <button id="close-refer-earn-modal" class="menu-button bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full w-full text-lg">
+                                Close
+                            </button>
+                        </div>
+                    </div>
                     <button id="how-to-play-button" class="menu-button bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
                         How to Play
                     </button>
@@ -1721,11 +1743,6 @@
     </div>
 
     <script>
-        // Game variables
-        // ... (आपके मौजूदा वेरिएबल्स के बाद)
-let gameOverCount = 0; // NEW: Game over counter
-const adFrequency = 3; // NEW: Show ad every 3 game overs
-// ...
         let gameActive = false;
         let gameLoop;
         let bird;
@@ -1735,6 +1752,19 @@ const adFrequency = 3; // NEW: Show ad every 3 game overs
         let difficulty = 'normal';
         // ... (आपके मौजूदा वेरिएबल्स के बाद, जैसे gameActive, money, आदि)
 
+		// ... (आपके existing global variables)
+let gameSession = null; // Track current game session
+let withdrawalHistory = []; // Track withdrawal history with status
+let savedPaymentAccounts = {
+// ...
+// _________________________
+// 🎶 NEW: Sound variables 🎶
+let soundEnabled = true;
+let soundVolume = 0.5; // Default volume
+const sounds = {}; // To store all Audio objects
+// _________________________
+
+// ... (Rest of your power-up variables)
 // 🌟 NEW: Global Game Configuration
 let gameConfig = {
     easy: {
@@ -2584,7 +2614,9 @@ function updateShoppingPricesDisplay() {
             // Set canvas size
             resizeGame();
             window.addEventListener('resize', resizeGame);
-            
+			
+            loadSound(); // 🎶 ADDED: Load all sound effects
+			
 // Set up event listeners
     setupEventListeners();
     
@@ -2598,7 +2630,100 @@ function updateShoppingPricesDisplay() {
     showAuthScreen();
         }
         
-        
+        // 🎶 NEW: Sound Loading Function 🎶
+function loadSound() {
+    // 💡 IMPORTANT: यहाँ आपको अपनी वास्तविक ऑडियो फ़ाइलों के URL की आवश्यकता होगी। 
+    // आपको इन डेमो URL को अपनी वास्तविक होस्ट की गई फ़ाइलों से बदलना होगा।
+    const soundFiles = {
+        jump: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Demo URL
+        score: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", // Demo URL
+        hit: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",  // Demo URL
+        die: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"   // Demo URL
+    };
+
+    Object.keys(soundFiles).forEach(name => {
+        const audio = new Audio(soundFiles[name]);
+        audio.volume = soundVolume;
+        sounds[name] = audio;
+    });
+    
+    // Check local storage for sound setting
+    const savedSoundSetting = localStorage.getItem('flappyBirdSound');
+    if (savedSoundSetting !== null) {
+        soundEnabled = savedSoundSetting === 'true';
+    }
+    updateSoundToggleButton();
+}
+
+// 🎶 NEW: Play Sound Function 🎶
+function playSound(name) {
+    if (soundEnabled && sounds[name]) {
+        // Stop and rewind to play instantly (fast playback)
+        sounds[name].pause();
+        sounds[name].currentTime = 0;
+        sounds[name].play().catch(e => console.log('Sound play blocked:', e));
+    }
+}
+
+// 🎶 NEW: Sound Toggle Logic 🎶
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem('flappyBirdSound', soundEnabled);
+    updateSoundToggleButton();
+    
+    if (soundEnabled) {
+        playSound('jump'); // Play a sound to confirm it's on
+        showNotification('Sound ON', 'success');
+    } else {
+        showNotification('Sound OFF', 'info');
+    }
+}
+
+function updateSoundToggleButton() {
+    const iconOn = document.getElementById('sound-icon-on');
+    const iconOff = document.getElementById('sound-icon-off');
+    const button = document.getElementById('sound-toggle-button');
+    
+    if (soundEnabled) {
+        iconOn.classList.remove('hidden');
+        iconOff.classList.add('hidden');
+        button.classList.remove('bg-gray-600');
+        button.classList.add('bg-green-500'); // Change color when on
+    } else {
+        iconOn.classList.add('hidden');
+        iconOff.classList.remove('hidden');
+        button.classList.remove('bg-green-500');
+        button.classList.add('bg-gray-600');
+    }
+}
+
+// ⭐ NEW: Refer & Earn Logic ⭐
+function showReferEarnModal() {
+    if (!currentUser) {
+        showNotification('Please log in to get your referral link.', 'info');
+        return;
+    }
+    const userId = currentUser.uid;
+    // 💡 Note: यह एक डेमो लिंक है; आपको वास्तविक रेफरल सिस्टम लागू करना होगा।
+    const referralLink = `https://flappyearn.com/ref?user=${userId}`;
+    
+    document.getElementById('referral-link-display').textContent = referralLink;
+    document.getElementById('refer-earn-modal').classList.remove('hidden');
+}
+
+function closeReferEarnModal() {
+    document.getElementById('refer-earn-modal').classList.add('hidden');
+}
+
+function copyReferralLink() {
+    const link = document.getElementById('referral-link-display').textContent;
+    navigator.clipboard.writeText(link).then(() => {
+        showNotification('Referral link copied to clipboard!', 'success');
+    }).catch(err => {
+        showNotification('Failed to copy link. Please copy manually.', 'error');
+        console.error('Could not copy text: ', err);
+    });
+}
         // Set up Firebase auth state listener
         function setupAuthStateListener() {
             const { onAuthStateChanged } = window.firebaseAuthMethods;
@@ -2684,7 +2809,15 @@ function resizeGame() {
             // Withdrawal history button
             document.getElementById('withdrawal-history-button').addEventListener('click', showWithdrawalHistory);
             document.getElementById('back-from-withdrawal-history').addEventListener('click', showMainMenu);
+
+			 // 🎶 NEW: Sound Toggle Button
+            document.getElementById('sound-toggle-button').addEventListener('click', toggleSound);
             
+            // ⭐ NEW: Refer & Earn Button
+            document.getElementById('refer-earn-button').addEventListener('click', showReferEarnModal);
+            document.getElementById('close-refer-earn-modal').addEventListener('click', closeReferEarnModal);
+            document.getElementById('copy-referral-link').addEventListener('click', copyReferralLink);
+			
             // Payment details menu buttons
             document.getElementById('back-from-payment-details').addEventListener('click', backToWithdrawal);
             document.getElementById('confirm-withdrawal-button').addEventListener('click', processWithdrawal);
@@ -4457,7 +4590,10 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
         function showGameOver() {
             gameActive = false;
             clearInterval(gameLoop);
-            
+			
+            playSound('hit'); // 🎶 ADDED
+        setTimeout(() => playSound('die'), 100); // 🎶 ADDED
+			
             gameOverCount++;
             if (gameOverCount % adFrequency === 0) {
                 // Display the full-screen ad every 3 game overs
@@ -5017,6 +5153,8 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
         
         function birdJump() {
             bird.velocity = jumpStrength;
+
+			playSound('jump'); // 🎶 ADDED
             
             // Track jump for session analytics
             if (gameSession) {
@@ -5128,6 +5266,8 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
                 // Check if pipe is passed
                 if (!pipe.passed && pipe.x + pipe.width < bird.x) {
                     pipe.passed = true;
+
+					playSound('score'); // 🎶 ADDED
                     
                     // Track pipe passing for session analytics
                     if (gameSession) {
