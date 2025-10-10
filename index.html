@@ -624,19 +624,13 @@
                 
                 <!-- Profile button in top left -->
             <button id="profile-button-main" class="profile-button absolute top-4 left-4 z-40">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-            </button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
                 
-                <div class="mb-10 relative">
-                    <div class="w-40 h-40 mx-auto relative floating">
-                        <div class="bird absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2.5);"></div>
-                    </div>
-                </div>
-                
-                <!-- Shopping button in top right -->
+                <!-- Shopping button in top right (No Change) -->
                 <button id="shopping-button" class="absolute top-4 right-4 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Power-up Shop">
                     <div class="flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -648,40 +642,24 @@
                 
                 <!-- Withdrawal History button -->
             <button id="withdrawal-history-button" class="absolute top-16 right-4 bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Withdrawal History">
-                <div class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                    </svg>
-                    <span class="hidden sm:block font-extrabold text-sm">History</span>
-                </div>
-            </button>
-                <!-- 🎶 NEW: Sound Toggle Button 🎶 -->
-            <button id="sound-toggle-button" class="absolute top-[7.5rem] right-4 bg-gray-600 hover:bg-gray-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Toggle Sound">
-                <div class="flex items-center space-x-2">
-                    <svg id="sound-icon-on" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M11 5V19c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h3l4-4zM16.5 12c0-1.77-1.02-3.29-2.5-4v8c1.48-.71 2.5-2.23 2.5-4zm-2.5 5.5v-11c2.23 0 4.05 1.74 4.05 4.5 0 2.76-1.82 4.5-4.05 4.5z"/>
-                    </svg>
-                    <svg id="sound-icon-off" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 hidden" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M11 5V19c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h3l4-4zM16.5 12c0-1.77-1.02-3.29-2.5-4v2.21l2.45 2.45c.03-.2.05-.41.05-.66zM19 12c0 .64-.13 1.25-.36 1.81l2.25 2.25c.61-1.22.98-2.65.98-4.06 0-3.71-2.02-6.92-4.97-8.62L16.5 7.5v-1.1c2.23 0 4.05 1.74 4.05 4.5 0 .3-.03.59-.08.88l-1.6-1.6zM4.27 3L3 4.27l7.56 7.56L11 12.83V19c0 .41-.35.7-.75.75L8 18.33V15.5l-2.45-2.45c-.03.2-.05.41-.05.66 0 1.77 1.02 3.29 2.5 4v2.09l2.25 2.25c.61 1.22.98 2.65.98 4.06 0 3.71-2.02 6.92-4.97 8.62L16.5 7.5v-1.1c2.23 0 4.05 1.74 4.05 4.5 0 .3-.03.59-.08.88l-1.6-1.6z"/>
+                    <div class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
-                        <span class="hidden sm:block font-extrabold text-sm">Sound</span>
+                        <span class="hidden sm:block font-extrabold text-sm">History</span>
                     </div>
                 </button>
-                <div class="space-y-4">
-                    <button id="play-button" class="menu-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
-                        Play Game
-                    </button>
 					
-                    <!-- ⭐ NEW: Refer and Earn Button ⭐ -->
+                   <!-- ⭐ NEW: Refer and Earn Button (Attractive Icon) ⭐ -->
                     <button id="refer-earn-button" class="menu-button bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold py-4 px-8 rounded-full w-full text-xl pulsing">
                         <div class="flex items-center justify-center space-x-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354l.353-.353a3.536 3.536 0 00-5.303-4.707 3.536 3.536 0 00-4.707 5.303L.354 12l.707.707a3.536 3.536 0 005.303 4.707 3.536 3.536 0 004.707-5.303L12 4.354zM20 12c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 11-8 0 4 4 0 018 0zM12 18h.01M16 16.273c.12-.178.274-.352.45-.494A10.086 10.086 0 0118 15v-1a4.996 4.996 0 00-7.794-4.148 5.016 5.016 0 01-2.206 4.148A4.996 4.996 0 005 14v1c.712 0 1.393.116 2.028.318.176.142.33.316.45.494"/>
                             </svg>
                             <span>Refer & Earn (₹5)</span>
                         </div>
                     </button>
-					
+                    
                     <button id="how-to-play-button" class="menu-button bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
                         How to Play
                     </button>
@@ -696,7 +674,7 @@
         </div>
     </div>
     
-    <!-- Refer & Earn Modal (इसको बाकी Modals के साथ जोड़ें - लगभग लाइन 1080) -->
+    <!-- Refer & Earn Modal (Need to be outside the main-menu div for full screen modal effect) -->
     <div id="refer-earn-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal">
         <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 text-center">
             <h2 class="text-3xl font-bold text-pink-600 mb-4">🤝 Invite Friends!</h2>
@@ -2639,14 +2617,17 @@ function updateShoppingPricesDisplay() {
         }
         
         // 🎶 NEW: Sound Loading Function 🎶
+// 🎶 NEW: Sound Loading Function 🎶
 function loadSound() {
-    // 💡 IMPORTANT: यहाँ आपको अपनी वास्तविक ऑडियो फ़ाइलों के URL की आवश्यकता होगी। 
-    // आपको इन डेमो URL को अपनी वास्तविक होस्ट की गई फ़ाइलों से बदलना होगा।
+    // 💡 IMPORTANT: ये मुफ्त 8-बिट SFX के डेमो URL हैं।
+    // आपको अपनी असली होस्ट की गई फ़ाइलों से इन्हें बदलना होगा।
     const soundFiles = {
-        jump: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Demo URL
-        score: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", // Demo URL
-        hit: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",  // Demo URL
-        die: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"   // Demo URL
+        jump: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-jump.mp3",  // Mario Jump Style
+        score: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-coin.mp3", // Mario Coin Style
+        hit: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-pipe.mp3",   // Retro Hit/Pipe Sound
+        die: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-death.mp3",  // Mario Death Style
+        powerup: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/powerup-activate.mp3", // Powerup activate
+        button: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/button-click.mp3"  // Button click sound
     };
 
     Object.keys(soundFiles).forEach(name => {
@@ -2661,7 +2642,6 @@ function loadSound() {
         soundEnabled = savedSoundSetting === 'true';
     }
     updateSoundToggleButton();
-}
 
 // 🎶 NEW: Play Sound Function 🎶
 function playSound(name) {
@@ -2782,12 +2762,13 @@ function resizeGame() {
             document.getElementById('login-button').addEventListener('click', handleLogin);
             document.getElementById('register-button').addEventListener('click', handleRegister);
             
-            // Main menu buttons
-            document.getElementById('play-button').addEventListener('click', showDifficultyMenu);
-            document.getElementById('how-to-play-button').addEventListener('click', showHowToPlay);
-            document.getElementById('high-scores-button').addEventListener('click', showHighScores);
-            document.getElementById('withdrawal-button').addEventListener('click', showWithdrawal);
-            document.getElementById('profile-button-main').addEventListener('click', showProfile);
+             // Main menu buttons
+            document.getElementById('play-button').addEventListener('click', () => { playSound('button'); showDifficultyMenu(); });
+            document.getElementById('refer-earn-button').addEventListener('click', () => { playSound('button'); showReferEarnModal(); });
+            document.getElementById('how-to-play-button').addEventListener('click', () => { playSound('button'); showHowToPlay(); });
+            document.getElementById('high-scores-button').addEventListener('click', () => { playSound('button'); showHighScores(); });
+            document.getElementById('withdrawal-button').addEventListener('click', () => { playSound('button'); showWithdrawal(); });
+            document.getElementById('profile-button-main').addEventListener('click', () => { playSound('button'); showProfile(); });
             
 
             
@@ -2818,11 +2799,11 @@ function resizeGame() {
             document.getElementById('withdrawal-history-button').addEventListener('click', showWithdrawalHistory);
             document.getElementById('back-from-withdrawal-history').addEventListener('click', showMainMenu);
 
-			 // 🎶 NEW: Sound Toggle Button
+			  // 🎶 NEW: Sound Toggle Button
             document.getElementById('sound-toggle-button').addEventListener('click', toggleSound);
             
             // ⭐ NEW: Refer & Earn Button
-            document.getElementById('refer-earn-button').addEventListener('click', showReferEarnModal);
+            // Note: Listener already added above for click and sound. 
             document.getElementById('close-refer-earn-modal').addEventListener('click', closeReferEarnModal);
             document.getElementById('copy-referral-link').addEventListener('click', copyReferralLink);
 			
@@ -3774,14 +3755,15 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
             }
             
             console.log('Using power-up:', powerType);
-            
-            // Use power-up
-            powerUpInventory[difficulty][powerType] = (powerUpInventory[difficulty][powerType] || 0) - 1;
-            activatePowerUp(powerType);
-            updateGamePowerUpDisplay();
-            saveData();
-            showNotification(`${getPowerUpName(powerType)} activated!`, 'success');
-        }
+        
+        // Use power-up
+        powerUpInventory[difficulty][powerType] = (powerUpInventory[difficulty][powerType] || 0) - 1;
+        activatePowerUp(powerType);
+        updateGamePowerUpDisplay();
+        saveData();
+        playSound('powerup'); // 🎶 ADDED: Play powerup sound
+        showNotification(`${getPowerUpName(powerType)} activated!`, 'success');
+    }
         
         function activatePowerUp(powerType) {
             activePowerUps[powerType] = true;
@@ -4596,13 +4578,13 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
         }
         
         function showGameOver() {
-            gameActive = false;
-            clearInterval(gameLoop);
-			
-            playSound('hit'); // 🎶 ADDED
+        gameActive = false;
+        clearInterval(gameLoop);
+        
+        playSound('hit'); // 🎶 ADDED
         setTimeout(() => playSound('die'), 100); // 🎶 ADDED
-			
-            gameOverCount++;
+        
+        gameOverCount++;
             if (gameOverCount % adFrequency === 0) {
                 // Display the full-screen ad every 3 game overs
                 showFullScreenAd(); 
@@ -5160,9 +5142,9 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
         }
         
         function birdJump() {
-            bird.velocity = jumpStrength;
-
-			playSound('jump'); // 🎶 ADDED
+             bird.velocity = jumpStrength;
+        
+        playSound('jump'); // 🎶 UPDATED
             
             // Track jump for session analytics
             if (gameSession) {
@@ -5272,10 +5254,10 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
                 }
                 
                 // Check if pipe is passed
-                if (!pipe.passed && pipe.x + pipe.width < bird.x) {
-                    pipe.passed = true;
-
-					playSound('score'); // 🎶 ADDED
+                 if (!pipe.passed && pipe.x + pipe.width < bird.x) {
+                pipe.passed = true;
+                
+                playSound('score'); // 🎶 UPDATED
                     
                     // Track pipe passing for session analytics
                     if (gameSession) {
