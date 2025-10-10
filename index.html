@@ -648,7 +648,12 @@
                 
                 <!-- Withdrawal History button -->
             <button id="withdrawal-history-button" class="absolute top-16 right-4 bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Withdrawal History">
-                    <!-- ... (Rest of SVG and span) ... -->
+                <div class="flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <span class="hidden sm:block font-extrabold text-sm">History</span>
+                </div>
             </button>
                 <!-- 🎶 NEW: Sound Toggle Button 🎶 -->
             <button id="sound-toggle-button" class="absolute top-[7.5rem] right-4 bg-gray-600 hover:bg-gray-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Toggle Sound">
@@ -658,30 +663,25 @@
                     </svg>
                     <svg id="sound-icon-off" xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 hidden" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M11 5V19c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-6c0-1.1.9-2 2-2h3l4-4zM16.5 12c0-1.77-1.02-3.29-2.5-4v2.21l2.45 2.45c.03-.2.05-.41.05-.66zM19 12c0 .64-.13 1.25-.36 1.81l2.25 2.25c.61-1.22.98-2.65.98-4.06 0-3.71-2.02-6.92-4.97-8.62L16.5 7.5v-1.1c2.23 0 4.05 1.74 4.05 4.5 0 .3-.03.59-.08.88l-1.6-1.6zM4.27 3L3 4.27l7.56 7.56L11 12.83V19c0 .41-.35.7-.75.75L8 18.33V15.5l-2.45-2.45c-.03.2-.05.41-.05.66 0 1.77 1.02 3.29 2.5 4v2.09l2.25 2.25c.61 1.22.98 2.65.98 4.06 0 3.71-2.02 6.92-4.97 8.62L16.5 7.5v-1.1c2.23 0 4.05 1.74 4.05 4.5 0 .3-.03.59-.08.88l-1.6-1.6z"/>
-                    </svg>
-                    <span class="hidden sm:block font-extrabold text-sm">Sound</span>
-                </div>
-            </button>
+                        </svg>
+                        <span class="hidden sm:block font-extrabold text-sm">Sound</span>
+                    </div>
+                </button>
                 <div class="space-y-4">
                     <button id="play-button" class="menu-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
                         Play Game
                     </button>
-					 <!-- ⭐ NEW: Refer and Earn Modal (इसे यहाँ छिपा हुआ रखें) ⭐ -->
-                    <div id="refer-earn-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal">
-                        <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 text-center">
-                            <h2 class="text-3xl font-bold text-pink-600 mb-4">🤝 Invite Friends!</h2>
-                            <p class="text-gray-700 mb-6">Share your referral link below and earn ₹5 for every friend who registers and plays one game!</p>
-                            <div class="bg-gray-100 p-4 rounded-xl mb-6">
-                                <p class="font-mono text-sm text-gray-700" id="referral-link-display">https://flappyearn.com/ref/USER_ID</p>
-                            </div>
-                            <button id="copy-referral-link" class="menu-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full w-full text-lg mb-4">
-                                Copy Link
-                            </button>
-                            <button id="close-refer-earn-modal" class="menu-button bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full w-full text-lg">
-                                Close
-                            </button>
+					
+                    <!-- ⭐ NEW: Refer and Earn Button ⭐ -->
+                    <button id="refer-earn-button" class="menu-button bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold py-4 px-8 rounded-full w-full text-xl pulsing">
+                        <div class="flex items-center justify-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354l.353-.353a3.536 3.536 0 00-5.303-4.707 3.536 3.536 0 00-4.707 5.303L.354 12l.707.707a3.536 3.536 0 005.303 4.707 3.536 3.536 0 004.707-5.303L12 4.354zM20 12c0 3.866-3.134 7-7 7s-7-3.134-7-7 3.134-7 7-7 7 3.134 7 7z" />
+                            </svg>
+                            <span>Refer & Earn (₹5)</span>
                         </div>
-                    </div>
+                    </button>
+					
                     <button id="how-to-play-button" class="menu-button bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
                         How to Play
                     </button>
@@ -693,6 +693,23 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Refer & Earn Modal (इसको बाकी Modals के साथ जोड़ें - लगभग लाइन 1080) -->
+    <div id="refer-earn-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden modal">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4 text-center">
+            <h2 class="text-3xl font-bold text-pink-600 mb-4">🤝 Invite Friends!</h2>
+            <p class="text-gray-700 mb-6">Share your referral link below and earn ₹5 for every friend who registers and plays one game!</p>
+            <div class="bg-gray-100 p-4 rounded-xl mb-6">
+                <p class="font-mono text-sm text-gray-700" id="referral-link-display">https://flappyearn.com/ref/USER_ID</p>
+            </div>
+            <button id="copy-referral-link" class="menu-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full w-full text-lg mb-4">
+                Copy Link
+            </button>
+            <button id="close-refer-earn-modal" class="menu-button bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full w-full text-lg">
+                Close
+            </button>
         </div>
     </div>
     
@@ -1750,17 +1767,7 @@
         let clouds = [];
         let money = 0;
         let difficulty = 'normal';
-        // ... (आपके मौजूदा वेरिएबल्स के बाद, जैसे gameActive, money, आदि)
 
-	// 🎶 NEW: Sound variables 🎶
-let soundEnabled = true; // FIX: अब यह एक स्वतंत्र 'let' है
-let soundVolume = 0.5; // FIX: अब यह एक स्वतंत्र 'let' है
-const sounds = {}; // To store all Audio objects
-
-// _________________________
-// 🌟 NEW: Global Game Configuration
-let gameConfig = {
-// ... (rest of gameConfig)
 // 🌟 NEW: Global Game Configuration
 let gameConfig = {
     easy: {
@@ -1824,6 +1831,11 @@ let gameConfig = {
             upi: [], // Max 5 UPI accounts
             bank: [] // Max 5 Bank accounts
         };
+        
+        // 🎶 NEW: Sound variables 🎶
+        let soundEnabled = true;
+        let soundVolume = 0.5; // Default volume
+        const sounds = {}; // To store all Audio objects
         
         // Power-ups state
         let activePowerUps = {
