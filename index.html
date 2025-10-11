@@ -39,7 +39,8 @@
             onAuthStateChanged,
             updatePassword,
             reauthenticateWithCredential,
-            EmailAuthProvider
+            EmailAuthProvider,
+            sendPasswordResetEmail
         };
         window.firebaseDbMethods = {
             doc,
@@ -52,8 +53,7 @@
             where,
             getDocs,
             addDoc,
-            serverTimestamp: () => new Date(),
-            sendPasswordResetEmail
+            serverTimestamp: () => new Date()
         };
     </script>
     <style>
@@ -417,12 +417,22 @@
 
 @keyframes shake {
     0%, 100% { transform: translateX(0) rotate(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px) rotate(-2deg); }
-    20%, 40%, 60%, 80% { transform: translateX(5px) rotate(2deg); }
+    10%, 30%, 50% { transform: translateX(-4px) rotate(-1.5deg); }
+    20%, 40%, 60% { transform: translateX(4px) rotate(1.5deg); }
 }
 
 .shaking {
-    animation: shake 2.5s cubic-bezier(.36,.07,.19,.97) infinite;
+    animation: shake 3s cubic-bezier(.36,.07,.19,.97) infinite;
+}
+        @keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#refer-earn-button {
+    background-size: 200% 200%;
+    animation: gradient-animation 4s ease infinite;
 }
     </style>
 </head>
@@ -2873,8 +2883,11 @@ function resizeGame() {
             document.getElementById('withdrawal-amount').addEventListener('input', validateWithdrawalAmount);
 
             // Withdrawal history button
-            document.getElementById('withdrawal-history-button').addEventListener('click', showWithdrawalHistory);
-            document.getElementById('back-from-withdrawal-history').addEventListener('click', showMainMenu);
+            document.getElementById('withdrawal-history-button').addEventListener('click', () => {
+    playSound('button'); // ⭐ यह लाइन जोड़ें
+    showWithdrawalHistory();
+});
+document.getElementById('back-from-withdrawal-history').addEventListener('click', showMainMenu);
 
                           // 🎶 NEW: Sound Toggle Button
             document.getElementById('sound-toggle-button').addEventListener('click', toggleSound);
@@ -2916,8 +2929,11 @@ function resizeGame() {
             document.getElementById('update-password-button').addEventListener('click', handlePasswordChange);
 
             // Shopping menu buttons
-            document.getElementById('shopping-button').addEventListener('click', showShopping);
-            document.getElementById('back-from-shopping').addEventListener('click', showMainMenu);
+document.getElementById('shopping-button').addEventListener('click', () => {
+    playSound('button'); // ⭐ यह लाइन जोड़ें
+    showShopping();
+});
+document.getElementById('back-from-shopping').addEventListener('click', showMainMenu);
 
             // Shopping tab buttons
             document.getElementById('shop-easy-tab').addEventListener('click', () => switchShopTab('easy'));
