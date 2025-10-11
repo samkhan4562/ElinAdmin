@@ -1763,9 +1763,12 @@
         let money = 0;
         let difficulty = 'normal';
 
-// 🌟 NEW: Global Game Configuration
-let gameConfig = {
-    easy: {
+        let gameOverCount = 0; // गेम कितनी बार खत्म हुआ, यह गिनने के लिए
+        let adFrequency = 3;   // हर 3 गेम ओवर के बाद विज्ञापन दिखाएं
+
+        // 🌟 NEW: Global Game Configuration
+        let gameConfig = {
+        easy: {
         gravity: 0.4,
         jumpStrength: -7,
         pipeSpeed: 2.5,
