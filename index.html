@@ -2616,33 +2616,6 @@ function updateShoppingPricesDisplay() {
     // Show auth screen initially
     showAuthScreen();
         }
-
-        // 🎶 NEW: Sound Loading Function 🎶
-// 🎶 NEW: Sound Loading Function 🎶
-function loadSound() {
-    // 💡 IMPORTANT: ये मुफ्त 8-बिट SFX के डेमो URL हैं।
-    // आपको अपनी असली होस्ट की गई फ़ाइलों से इन्हें बदलना होगा।
-    const soundFiles = {
-        jump: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-jump.mp3",  // Mario Jump Style
-        score: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-coin.mp3", // Mario Coin Style
-        hit: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-pipe.mp3",   // Retro Hit/Pipe Sound
-        die: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/mario-death.mp3",  // Mario Death Style
-        powerup: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/powerup-activate.mp3", // Powerup activate
-        button: "https://cdn.jsdelivr.net/gh/samkhan4562/cdn/button-click.mp3"  // Button click sound
-    };
-
-    Object.keys(soundFiles).forEach(name => {
-        const audio = new Audio(soundFiles[name]);
-        audio.volume = soundVolume;
-        sounds[name] = audio;
-    });
-
-    // Check local storage for sound setting
-    const savedSoundSetting = localStorage.getItem('flappyBirdSound');
-    if (savedSoundSetting !== null) {
-        soundEnabled = savedSoundSetting === 'true';
-    }
-    updateSoundToggleButton();
     
     // 🎶 NEW: Sound Loading Function 🎶
 function loadSound() {
