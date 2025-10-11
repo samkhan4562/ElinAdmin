@@ -8,8 +8,9 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
         import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, collection, query, where, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        
 
         // Firebase configuration
         const firebaseConfig = {
@@ -51,7 +52,8 @@
             where,
             getDocs,
             addDoc,
-            serverTimestamp: () => new Date()
+            serverTimestamp: () => new Date(),
+            sendPasswordResetEmail
         };
     </script>
     <style>
@@ -562,6 +564,23 @@
                     <h1 class="text-5xl font-bold text-white drop-shadow-md">Flappy Bird</h1>
                 </div>
                 <h2 class="text-2xl text-white mb-8 opacity-90">Rupee Adventure</h2>
+                <!-- ⭐ NEW: Forgot Password Menu ⭐ -->
+<div id="forgot-password-menu" class="fixed inset-0 flex items-center justify-center z-50 hidden modal">
+    <div class="bg-white p-8 rounded-3xl shadow-2xl max-w-md w-full mx-4">
+        <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Reset Password</h2>
+        <p class="text-center text-gray-600 mb-6">Enter your email address and we will send you a link to reset your password.</p>
+        <div class="space-y-4">
+            <input type="email" id="reset-email" placeholder="Enter your registered email" class="w-full px-4 py-3 rounded-full text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300">
+            <button id="send-reset-email-button" class="menu-button bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold py-3 px-6 rounded-full w-full text-lg">
+                Send Reset Link
+            </button>
+            <button id="back-from-forgot-password" class="menu-button bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold py-3 px-6 rounded-full w-full">
+                Back to Login
+            </button>
+        </div>
+        <div id="reset-message" class="hidden mt-4 p-3 rounded-full text-center font-semibold"></div>
+    </div>
+</div>
 
 
 
@@ -584,6 +603,7 @@
                     <button id="login-button" class="menu-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
                         Login
                     </button>
+                    <button id="show-forgot-password" class="text-white underline text-sm mt-2">Forgot Password?</button>
                     <button id="show-register" class="text-white underline text-lg">Don't have an account? Register</button>
                 </div>
 
@@ -3026,7 +3046,56 @@ const allButtons = document.querySelectorAll('.menu-button');
 allButtons.forEach(button => {
     button.addEventListener('click', () => playSound('button'));
 });
+            // setupEventListeners फंक्शन के अंदर
+document.getElementById('show-forgot-password').addEventListener('click', showForgotPasswordMenu);
+document.getElementById('send-reset-email-button').addEventListener('click', handlePasswordReset);
+document.getElementById('back-from-forgot-password').addEventListener('click', backToLoginFromForgot);
         }
+        // ⭐ NEW: Password Reset Functions ⭐
+function showForgotPasswordMenu() {
+    document.getElementById('auth-screen').classList.add('hidden');
+    document.getElementById('forgot-password-menu').classList.remove('hidden');
+    document.getElementById('reset-email').value = '';
+    document.getElementById('reset-message').classList.add('hidden');
+}
+
+function backToLoginFromForgot() {
+    document.getElementById('forgot-password-menu').classList.add('hidden');
+    document.getElementById('auth-screen').classList.remove('hidden');
+}
+
+async function handlePasswordReset() {
+    const email = document.getElementById('reset-email').value.trim();
+    const resetButton = document.getElementById('send-reset-email-button');
+    const resetMessage = document.getElementById('reset-message');
+
+    if (!email) {
+        resetMessage.textContent = 'Please enter your email address.';
+        resetMessage.className = 'mt-4 p-3 rounded-full text-center font-semibold bg-red-100 text-red-700';
+        resetMessage.classList.remove('hidden');
+        return;
+    }
+
+    resetButton.disabled = true;
+    resetButton.textContent = 'Sending...';
+
+    try {
+        const { sendPasswordResetEmail } = window.firebaseAuthMethods;
+        await sendPasswordResetEmail(window.firebaseAuth, email);
+        
+        resetMessage.textContent = 'Password reset link sent! Please check your email.';
+        resetMessage.className = 'mt-4 p-3 rounded-full text-center font-semibold bg-green-100 text-green-700';
+        resetMessage.classList.remove('hidden');
+
+    } catch (error) {
+        resetMessage.textContent = 'Error: ' + error.message;
+        resetMessage.className = 'mt-4 p-3 rounded-full text-center font-semibold bg-red-100 text-red-700';
+        resetMessage.classList.remove('hidden');
+    }
+
+    resetButton.disabled = false;
+    resetButton.textContent = 'Send Reset Link';
+}
 
         function handleKeyDown(e) {
             if (e.code === 'Space' || e.code === 'ArrowUp') {
@@ -3753,6 +3822,7 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
     const price = gameConfig.powerUpPrices[shopDifficulty]; 
 
     if (totalBalance >= price) {
+        playSound('button');
         totalBalance -= price;
         powerUpInventory[shopDifficulty][powerType]++;
         updateUserDisplay();
@@ -4480,6 +4550,7 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
                 // STEP 2: SIRF TAB USER KI "PERSONAL DIARY" UPDATE KARO JAB STEP 1 SAFAL HO
                 // Main Office Register mein successfully save hone ke baad hi user data update karo
                 if (withdrawalDocumentSaved) {
+                    playSound('score');
                     console.log('📖 Now updating user Personal Diary...');
 
                     // User ke Personal Diary ke liye chota record
