@@ -629,6 +629,18 @@
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                 </button>
+                <!-- ⭐ NEW: Sound Toggle Button ⭐ -->
+<button id="sound-toggle-button" class="absolute top-4 left-16 z-40 bg-green-500 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 transform hover:scale-110" title="Toggle Sound">
+    <!-- Sound On Icon -->
+    <svg id="sound-icon-on" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z" />
+    </svg>
+    <!-- Sound Off Icon -->
+    <svg id="sound-icon-off" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9l4 4m0-4l-4 4" />
+    </svg>
+</button>
 
                 <!-- Shopping button in top right (No Change) -->
                 <button id="shopping-button" class="absolute top-4 right-4 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Power-up Shop">
