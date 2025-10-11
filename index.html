@@ -411,6 +411,17 @@
             font-family: Arial, sans-serif;
             font-weight: bold;
         }
+        /* ... बाकी @keyframes के बाद ... */
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px) rotate(-2deg); }
+    20%, 40%, 60%, 80% { transform: translateX(5px) rotate(2deg); }
+}
+
+.shaking {
+    animation: shake 2.5s cubic-bezier(.36,.07,.19,.97) infinite;
+}
     </style>
 </head>
 <body>
@@ -656,7 +667,7 @@
 </button>
 
                 <!-- Shopping button in top right (No Change) -->
-                <button id="shopping-button" class="absolute top-4 right-4 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Power-up Shop">
+                <button id="shopping-button" class="menu-button absolute top-4 right-4 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Power-up Shop">
                     <div class="flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -666,7 +677,7 @@
                 </button>
 
                 <!-- Withdrawal History button -->
-            <button id="withdrawal-history-button" class="absolute top-16 right-4 bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Withdrawal History">
+            <button id="withdrawal-history-button" class="menu-button absolute top-24 right-4 bg-gradient-to-r from-green-500 via-emerald-500 to-green-600 hover:from-green-600 hover:via-emerald-600 hover:to-green-700 text-white font-bold p-4 rounded-2xl text-lg z-40 shadow-2xl transform hover:scale-110 transition-all duration-300 border-3 border-white/30 backdrop-blur-sm group" title="Withdrawal History">
                     <div class="flex items-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -676,12 +687,12 @@
                 </button>
                 <div class="space-y-4 mt-8"> <!-- ⭐ यह div और क्लास जोड़ें -->
                 <!-- Play Button -->
-<button id="play-button" class="menu-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl pulsing">
+<button id="play-button" class="menu-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-full w-full text-xl">
     Play Game
 </button>
 
                    <!-- ⭐ NEW: Refer and Earn Button (Attractive Icon) ⭐ -->
-                    <button id="refer-earn-button" class="menu-button bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold py-4 px-8 rounded-full w-full text-xl pulsing">
+                    <button id="refer-earn-button" class="menu-button bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold py-4 px-8 rounded-full w-full text-xl shaking">
                         <div class="flex items-center justify-center space-x-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <!-- 💡 FIX: Simplified Referrer Icon path -->
@@ -2661,7 +2672,8 @@ function loadSound() {
         hit: "sounds/mario-pipe.mp3",
         die: "sounds/mario-death.mp3",
         powerup: "sounds/powerup-activate.mp3",
-        button: "sounds/button-click.mp3"
+        button: "sounds/button-click.mp3",
+        countdown: "sounds/countdown.mp3"
     };
 
     Object.keys(soundFiles).forEach(name => {
@@ -4929,36 +4941,28 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
             }, 800);
         }
 
-        function startCountdownAfterLoading(selectedDifficulty) {
-            // Clear any existing game elements
-            clearGameElements();
+        // startCountdownAfterLoading फंक्शन को इस नए कोड से बदलें
 
-            // Show countdown overlay
-            countdownOverlay.classList.remove('hidden');
-            countdownNumber.textContent = '3';
+function startCountdownAfterLoading(selectedDifficulty) {
+    clearGameElements();
+    countdownOverlay.classList.remove('hidden');
+    countdownNumber.textContent = '3';
+    countdownActive = true;
 
-            // Set countdown active flag
-            countdownActive = true;
+    playSound('countdown'); // ⭐ बस एक बार यहाँ साउंड चलाएं
 
-            // Start countdown
-            let count = 3;
-    playSound('button'); // ⭐ पहला साउंड यहाँ बजाएं (3 के लिए)
-
+    let count = 3;
     const countdownInterval = setInterval(() => {
         count--;
-
-                if (count > 0) {
-                    // Update countdown number with animation
-                    countdownNumber.style.animation = 'none';
-                    void countdownNumber.offsetWidth; // Trigger reflow
-                   countdownNumber.textContent = count;
-            playSound('button'); // ⭐ 2 और 1 के लिए साउंड यहाँ बजाएं
-                } else {
-            // Countdown finished
+        if (count > 0) {
+            countdownNumber.style.animation = 'none';
+            void countdownNumber.offsetWidth;
+            countdownNumber.style.animation = 'countdownPulse 1s ease-in-out';
+            countdownNumber.textContent = count;
+        } else {
             clearInterval(countdownInterval);
             countdownOverlay.classList.add('hidden');
             countdownActive = false;
-            playSound('score'); // ⭐ गेम शुरू होने पर एक अलग साउंड
             startGame(selectedDifficulty);
         }
     }, 1000);
