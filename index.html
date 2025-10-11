@@ -4750,6 +4750,8 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
         playSound('hit'); // 🎶 ADDED
         setTimeout(() => playSound('die'), 100); // 🎶 ADDED
 
+        document.getElementById('game-power-ups').classList.add('hidden'); 
+
         gameOverCount++;
             if (gameOverCount % adFrequency === 0) {
                 // Display the full-screen ad every 3 game overs
