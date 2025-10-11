@@ -414,6 +414,19 @@
     </style>
 </head>
 <body>
+    <!-- ⭐ NEW: Initial Loading Screen ⭐ -->
+<div id="initial-loading-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-500" style="background: linear-gradient(180deg, #4dc6ff 0%, #87CEEB 100%);">
+    <div class="text-center text-white">
+        <div class="relative w-40 h-40 mb-4">
+            <div class="bird" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(2); animation: loadingFloat 2s ease-in-out infinite;"></div>
+        </div>
+        <h1 class="text-6xl font-bold drop-shadow-lg mb-2">Flappy Rupee</h1>
+        <p class="text-2xl opacity-80 drop-shadow-md">Loading your adventure...</p>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2">
+            <p class="text-sm opacity-60">Made with ❤️ by Elin Game</p>
+        </div>
+    </div>
+</div>
     <div id="game-container">
         <canvas id="game-canvas"></canvas>
         <div class="bird" id="bird"></div>
@@ -2740,29 +2753,34 @@ function copyReferralLink() {
 
 
 
-        // Set up Firebase auth state listener
-        function setupAuthStateListener() {
-            const { onAuthStateChanged } = window.firebaseAuthMethods;
-            onAuthStateChanged(window.firebaseAuth, async (user) => {
-                if (user) {
-                    // User is signed in
-                    currentUser = user;
-                    await loadUserData(user.uid);
-                    showMainMenu();
-                } else {
-                    // User is signed out
-                    currentUser = null;
-                    totalBalance = 0;
-                    highScores = {
-                        easy: [0, 0, 0],
-                        normal: [0, 0, 0],
-                        hard: [0, 0, 0]
-                    };
-                    gameHistory = [];
-                    showAuthScreen();
-                }
-            });
+       // setupAuthStateListener फंक्शन को ढूंढें और उसे इस नए कोड से बदलें
+
+function setupAuthStateListener() {
+    const { onAuthStateChanged } = window.firebaseAuthMethods;
+    const initialLoadingScreen = document.getElementById('initial-loading-screen');
+
+    onAuthStateChanged(window.firebaseAuth, async (user) => {
+        if (user) {
+            // User is signed in
+            currentUser = user;
+            await loadUserData(user.uid);
+            showMainMenu();
+        } else {
+            // User is signed out
+            currentUser = null;
+            // ... (बाकी का कोड वैसा ही रहेगा)
+            showAuthScreen();
         }
+
+        // ⭐ NEW: Hide initial loading screen after auth check is complete ⭐
+        if (initialLoadingScreen) {
+            initialLoadingScreen.classList.add('opacity-0');
+            setTimeout(() => {
+                initialLoadingScreen.classList.add('hidden');
+            }, 500); // Fade out animation
+        }
+    });
+}
 // ... existing code ...
 function resizeGame() {
     // 🌟 1. Get the game container element
@@ -2990,6 +3008,12 @@ function resizeGame() {
             document.addEventListener('keydown', handleKeyDown);
             gameContainer.addEventListener('click', handleClick);
             gameContainer.addEventListener('touchstart', handleTouch);
+
+            // ⭐ NEW: Add sound to all menu buttons automatically ⭐
+const allButtons = document.querySelectorAll('.menu-button');
+allButtons.forEach(button => {
+    button.addEventListener('click', () => playSound('button'));
+});
         }
 
         function handleKeyDown(e) {
@@ -4918,25 +4942,27 @@ function buyPowerUpFromShop(powerType, shopDifficulty) {
 
             // Start countdown
             let count = 3;
-            const countdownInterval = setInterval(() => {
-                count--;
+    playSound('button'); // ⭐ पहला साउंड यहाँ बजाएं (3 के लिए)
+
+    const countdownInterval = setInterval(() => {
+        count--;
 
                 if (count > 0) {
                     // Update countdown number with animation
                     countdownNumber.style.animation = 'none';
                     void countdownNumber.offsetWidth; // Trigger reflow
-                    countdownNumber.style.animation = 'countdownPulse 1s ease-in-out';
-                    countdownNumber.textContent = count;
+                   countdownNumber.textContent = count;
+            playSound('button'); // ⭐ 2 और 1 के लिए साउंड यहाँ बजाएं
                 } else {
-                    // Countdown finished
-                    clearInterval(countdownInterval);
-                    countdownOverlay.classList.add('hidden');
-                    countdownActive = false;
-                    startGame(selectedDifficulty);
-                }
-            }, 1000);
+            // Countdown finished
+            clearInterval(countdownInterval);
+            countdownOverlay.classList.add('hidden');
+            countdownActive = false;
+            playSound('score'); // ⭐ गेम शुरू होने पर एक अलग साउंड
+            startGame(selectedDifficulty);
         }
-
+    }, 1000);
+}
         function startGame(selectedDifficulty) {
     // Hide all menus
     mainMenu.classList.add('hidden');
